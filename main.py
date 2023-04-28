@@ -2,11 +2,11 @@ import numpy as np
 import pandas as pd
 import random
 
-M = 12
-N = 5
+M = 8
+N = 3
 T1 = 10
 T2 = 22
-O_count = 11
+O_count = 6
 O = []
 best_copy = 10
 p_cros = 0.01
@@ -19,7 +19,9 @@ count_years = 0
 # vector = np.array([10, 12, 16, 18, 17, 10, 13, 19])
 
 vector = []
-[vector.append(random.randint(T1,T2)) for _ in range(M)]
+[vector.append(random.randint(T1, T2)) for _ in range(M)]
+
+
 # p_cros = float(input('p_cros = '))
 # p_mut = float(input('p_mut = '))
 
@@ -60,6 +62,7 @@ def fenotype(genotype):
                 break
     sum_f = []
     [sum_f.append(sum(f.get(i))) for i in f]
+    print(f"{sum_f} -----")
     return max(sum_f)
 
 
@@ -70,7 +73,7 @@ def cross(O_parrent, second=None):
         while O[i] == O_parrent:
             i = random.randint(0, O_count - 1)
         second = O[i]
-    i = random.randint(1, M-1)
+    i = random.randint(1, M - 1)
     for j in range(0, i):
         O_new.append(O_parrent[j])
     for j in range(i, M):
@@ -88,7 +91,10 @@ def mutation(O_cros):
     number = zeros + number
     j = random.randint(0, len(number) - 1)
     number = list(number)
-    number[j] = 1 if number[j] == 0 else 0
+    if int(number[j]):
+        number[j] = 0
+    else:
+        number[j] = 1
     number = ''.join(map(str, number))
     number = int(number, 2)
     O_cros[i] = number
@@ -112,11 +118,11 @@ for cur in O:
         best_individual = fenotype(cur)
 print(best_individual)
 print('=========================================================================================')
-while best_count < best_copy-1:
-    count_years +=1
+while best_count < best_copy - 1:
+    count_years += 1
     print(f'Поколение №{count_years}')
     # выбираем лучшую особь
-
+    print(f"{vector} <- vector")
     new_O = []
     print('Данное поколоние ->')
     print_O(O)
